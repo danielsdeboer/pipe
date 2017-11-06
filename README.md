@@ -1,6 +1,6 @@
 ## Overview
 
-PHP code can be frustratingly opaque, especially when dealing with nested functions. Why not chain those function instead?
+PHP code can be frustratingly opaque, especially when dealing with nested functions. Why not chain those functions instead?
 
 ```php
 $filter = function ($item) { return $item === 'SOME'; };
@@ -10,11 +10,11 @@ echo implode('.', array_filter(explode('-', strtoupper(trim('    some-value'))),
 
 // Multiple assignments
 $value = '    some-value';
-$value = trim($value7);
-$value = strtoupper($value7);
-$value = explode('-', $value7);
-$value = array_filter($value7, $filter);
-echo implode('.', $value7);
+$value = trim($value);
+$value = strtoupper($value);
+$value = explode('-', $value);
+$value = array_filter($value, $filter);
+echo implode('.', $value);
 
 // Easy to read pipe
 echo take('    some-value')

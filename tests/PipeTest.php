@@ -36,7 +36,7 @@ class PipeTest extends TestCase
     public function it_transforms_values_using_closures ()
     {
         $value = take('string')
-            ->pipe(function (string $value ) {
+            ->pipe(function (string $value) {
                 return 'prefixed-' . $value;
             })
             ->get();
@@ -158,14 +158,18 @@ class PipeTest extends TestCase
 
         $this->assertSame('some.array', $value4);
 
-        $closure = function ($item) { return $item . '-postfixed'; };
+        $closure = function ($item) {
+            return $item . '-postfixed';
+        };
         $value5 = Pipe::take('value')
             ->pipe($closure)
             ->get();
 
         $this->assertSame('value-postfixed', $value5);
 
-        $filter = function ($item) { return $item === 'SOME'; };
+        $filter = function ($item) {
+            return $item === 'SOME';
+        };
 
         $value6 = implode('.', array_filter(explode('-', strtoupper(trim('    some-value'))), $filter));
 

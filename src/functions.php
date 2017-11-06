@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('take')) {
+if (! function_exists('take')) {
     /**
      * Get a Pipe instance for the given value.
      * @param mixed $value

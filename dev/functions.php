@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('dd')) {
+if (! function_exists('dd')) {
     /**
      * Die and dump.
      * @param array ...$stuff

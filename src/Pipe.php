@@ -43,7 +43,7 @@ class Pipe
      * @param array ...$args
      * @return \Aviator\Pipe\Pipe $this
      */
-    public function pipe (callable $callable, ...$args) : Pipe
+    public function pipe (callable $callable, ...$args) : self
     {
         $this->value = $callable(
             ...$this->prepareArgs($args)
