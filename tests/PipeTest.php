@@ -10,23 +10,22 @@ class PipeTest extends TestCase
     /** @test */
     public function all_creation_methods_are_equivalent ()
     {
-        $pipe1 = new Pipe('string');
-        $pipe2 = Pipe::take('string');
-        $pipe3 = take('string');
+        $pipes = [
+            $pipe1 = new Pipe('string'),
+            $pipe2 = Pipe::take('string'),
+            $pipe3 = take('string'),
+        ];
 
-        $this->assertInstanceOf(Pipe::class, $pipe1);
-        $this->assertInstanceOf(Pipe::class, $pipe2);
-        $this->assertInstanceOf(Pipe::class, $pipe3);
-
-        $this->assertSame('string', $pipe1->get());
-        $this->assertSame('string', $pipe2->get());
-        $this->assertSame('string', $pipe3->get());
+        foreach ($pipes as $pipe) {
+            $this->assertInstanceOf(Pipe::class, $pipe);
+            $this->assertSame('string', $pipe->get());
+        }
     }
 
     /** @test */
     public function it_transforms_values_using_callable_strings ()
     {
-        $value = Pipe::take('string')
+        $value = take('string')
             ->pipe('strtoupper')
             ->get();
 
@@ -36,7 +35,7 @@ class PipeTest extends TestCase
     /** @test */
     public function it_transforms_values_using_closures ()
     {
-        $value = Pipe::take('string')
+        $value = take('string')
             ->pipe(function (string $value ) {
                 return 'prefixed-' . $value;
             })
@@ -48,7 +47,7 @@ class PipeTest extends TestCase
     /** @test */
     public function it_accepts_and_uses_pipe_parameters ()
     {
-        $value = Pipe::take(['some', 'test', 'values'])
+        $value = take(['some', 'test', 'values'])
             ->pipe('implode', '.')
             ->get();
 
@@ -58,11 +57,11 @@ class PipeTest extends TestCase
     /** @test */
     public function it_replaces_placeholders_with_values ()
     {
-        $withoutPlaceholder = Pipe::take('some.test.values')
+        $withoutPlaceholder = take('some.test.values')
             ->pipe('explode', '.')
             ->get();
 
-        $withPlaceholder = Pipe::take('some.test.values')
+        $withPlaceholder = take('some.test.values')
             ->pipe('explode', '.', '$$')
             ->get();
 
@@ -71,13 +70,21 @@ class PipeTest extends TestCase
     }
 
     /** @test */
+    public function it_accepts_and_uses_an_optional_custom_placeholder ()
+    {
+        $value = take('st.ri.ng', '**')->explode('.', '**')->get();
+
+        $this->assertSame(['st', 'ri', 'ng'], $value);
+    }
+
+    /** @test */
     public function it_defers_undefined_methods_to_the_pipe_method ()
     {
-        $stringValue = Pipe::take('string')
+        $stringValue = take('string')
             ->strtoupper()
             ->get();
 
-        $arrayValue = Pipe::take('some.value')
+        $arrayValue = take('some.value')
             ->explode('.', '$$')
             ->get();
 
@@ -88,7 +95,7 @@ class PipeTest extends TestCase
     /** @test */
     public function it_can_transform_values_in_multiple_steps ()
     {
-        $value = Pipe::take('some.test.values')
+        $value = take('some.test.values')
             ->pipe('explode', '.', '$$')
             ->pipe('array_map', function ($item) {
                 return $item . '-test';
@@ -102,7 +109,7 @@ class PipeTest extends TestCase
     /** @test */
     public function using_pipe_and_using_magic_call_are_equivalent ()
     {
-        $piped = Pipe::take('some.test.values')
+        $piped = take('some.test.values')
             ->pipe('explode', '.', '$$')
             ->pipe('array_map', function ($item) {
                 return $item . '-test';
@@ -110,7 +117,7 @@ class PipeTest extends TestCase
             ->pipe('implode', '/', '$$')
             ->get();
 
-        $called = Pipe::take('some.test.values')
+        $called = take('some.test.values')
             ->explode('.', '$$')
             ->array_map(function ($item) {
                 return $item . '-test';

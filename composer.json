@@ -1,6 +1,22 @@
 {
-    "name": "aviator/delegate",
+    "name": "aviator/pipe",
+    "type": "library",
+    "description": "Chain callables using a simple wrapper class.",
+    "keywords": [
+        "php",
+        "php7",
+        "pipe"
+    ],
+    "homepage": "https://github.com/danielsdeboer/pipe",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel S. Deboer",
+            "email": "daniel.s.deboer@gmail.com",
+            "homepage": "https://aviatorcreative.ca",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Aviator\\Pipe\\": "src/"
