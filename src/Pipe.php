@@ -96,17 +96,25 @@ class Pipe
     }
 
     /**
-     * Replace any occurrence of the ID constant with the value.
+     * Replace any occurrence of the placeholder with the value.
      * @param array $args
      * @return array
      */
     protected function replacePlaceholderWithValue (array $args) : array
     {
-        return array_map(function ($arg) {
-            return $arg === $this->placeholder
-                ? $this->value
-                : $arg;
-        }, $args);
+        return array_map([$this, 'placeholderCb'], $args);
+    }
+
+    /**
+     * Placeholder replacement callback.
+     * @param mixed $arg
+     * @return mixed
+     */
+    public function placeholderCb ($arg)
+    {
+        return $arg === $this->placeholder
+            ? $this->value
+            : $arg;
     }
 
     /**
